@@ -35,3 +35,29 @@ Também visto como _admin_, é necessário para manipulação com 'superpoderes'
 comando no terminal:<br>
 ```python3 manage.py createsuperuser```
 - Após rodar novamente a aplicação, verificar nos URL's o endereço de acesso para superuser
+## Views e URL's no Django
+A própria a [documentação](https://docs.djangoproject.com/en/4.0/topics/http/views/) do Django exemplifica uma utlização de view.
+### criação da view
+- Código sobre o arquivo <em>views.py</em>:
+``` from django.http import HttpResponse
+import datetime
+
+def data_atual(request):
+    now = datetime.datetime.now()
+    html = f"<html><body>It is now {now:%Y/%m/%d, %H:%M:%S}.</body></html>"
+    return HttpResponse(html)
+```
+    
+### Implemenação da URL
+Código sobre o arquivo _urls.py_ na pasta _controle_despesas_:
+```from django.contrib import admin
+from django.urls import path
+from contas.views import data_atual
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('teste_views/', data_atual),
+]
+```
+-  Pode-se verificar a alteração acessando a url _'teste_views/'_ na porta de execução do Django.
+
