@@ -8,3 +8,6 @@ def data_atual(request):
     now = datetime.datetime.now()
     html = f"<html><body>It is now {now:%Y/%m/%d, %H:%M:%S}.</body></html>"
     return HttpResponse(html)
+
+def home(request):
+    return render(request, 'contas/home.html')

@@ -61,3 +61,37 @@ urlpatterns = [
 ```
 -  Pode-se verificar a alteração acessando a url _'teste_views/'_ na porta de execução do Django.
 
+## Utilização de templates 
+1.Inicialmente, cria-se o view que utilizará o template 
+```
+def home(request):
+    return render(request, 'contas/home.html')
+```
+
+2.Criação da pasta templates onde na própria, aqui colocado no caminho _/contas/templates_
+
+3.Criação do template:
+<p>Para criar um novo template basta criar um arquivo html, aqui nomeado como <em>home.html</em></p>
+<p>No arquivo, digitar -> html:5 + <button>TAB</button>.<p></p>
+
+4.Para configuração onde utilizar templates, basta ir em _settings.py_ e colocar o caminho do [diretório dos templates](https://docs.djangoproject.com/pt-br/3.0/howto/overriding-templates/)
+Implentar a url da nova view para testar no servidor.
+
+Obs: Dado mudanças no projeto(arquivo _settings.py_) é necessário reiniciar o servidor para testar a nova view.
+
+## Models
+### Criação de Models
+<p>Models pode ser explicado como descrição de como será o banco de dados</p>
+1. criar uma classe com herança da classe model no arquivo _models.py_
+
+``` 
+class Categoria(models):
+    nome = models.CharField(max_length=100)
+    dt_criacao = models.DateTimeField(auto_now_add=True)
+```
+ - Nova tabela cujo nome categoria, [aqui](https://docs.djangoproject.com/en/4.0/ref/models/fields/) pode saber mais sobre os fields do django
+### Atualização do migrations
+ após criação do models é necessário aplicá-los no migrations, o qual indicará para o Django como dever ser criado o banco de dados.
+ -Após parar o servidor, caso esteja rodando.
+ comando no terminal:<br>
+```python manage.py makemigrations```
