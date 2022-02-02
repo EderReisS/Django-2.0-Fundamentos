@@ -1,4 +1,5 @@
-# Django-2.0-Fundamentos
+Django-2.0-Fundamentos
+======================
 Repositório destinado a estudo aplicação de framework Django através do curso Django 2.0 Fundamentos
 
 ## Prepação do ambiente
@@ -17,10 +18,22 @@ Comando no terminal:<br>
 ```django-admin startproject controle_despesas```
 - Esse projeto terá nome de "controle_depesas"
 ## Rodando a primeira app no Django
-### Criação da aplicação
+### Criação da app
 comando no terminal:<br>
 ```python3 manage.py startapp contas```
 - Aqui criará uma aplicação com o nome 'contas'
+
+### Cadastro da app
+O cadastro é no _settings.py_ do projeto(aqui chamado de _controle despesas_) e adicionar o nome da nova app criada(_contas_).
+```
+INSTALLED_APPS = [
+    'django.contrib.admin',
+    ...,
+
+    ...,
+    'contas',
+]
+```
 ### Criação do banco de dados
 comando no terminal:<br>
 ``` python3 manage.py migrate```
@@ -90,8 +103,27 @@ class Categoria(models):
     dt_criacao = models.DateTimeField(auto_now_add=True)
 ```
  - Nova tabela cujo nome categoria, [aqui](https://docs.djangoproject.com/en/4.0/ref/models/fields/) pode saber mais sobre os fields do django
-### Atualização do migrations
+### Pré-âmbulo da composilçao da nova tabela
  após criação do models é necessário aplicá-los no migrations, o qual indicará para o Django como dever ser criado o banco de dados.
- -Após parar o servidor, caso esteja rodando.
- comando no terminal:<br>
+ -Após parar o servidor, caso esteja rodando. 
+ 
+Comando no terminal:<br>
 ```python manage.py makemigrations```
+### Criação da tabela
+<p>Após a descrição de como deve ser gerados a tabela de dados, a aplicação da tabela no projeto deve ser feita.</p>
+
+Comando no terminal:<br>
+```python manage.py emigrate```
+
+### Testar a presença da nova tabela
+1.Um modo de testar a nova tabela é registrá-la no _admin.py_ de minha aplicação
+
+```
+from .models import Categoria
+
+admin.site.register(Categoria)
+```
+2.Acessar o server via admin
+Comando no terminal:<br>
+```python manage.py runserver```
+- Verificar qual porta está para acessar o admin e verificar se há _Categorias_ no app _Contas_
