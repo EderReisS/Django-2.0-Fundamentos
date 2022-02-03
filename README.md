@@ -113,7 +113,7 @@ Comando no terminal:<br>
 <p>Após a descrição de como deve ser gerados a tabela de dados, a aplicação da tabela no projeto deve ser feita.</p>
 
 Comando no terminal:<br>
-```python manage.py emigrate```
+```python manage.py migrate```
 
 ### Testar a presença da nova tabela
 1.Um modo de testar a nova tabela é registrá-la no _admin.py_ de minha aplicação
@@ -127,3 +127,53 @@ admin.site.register(Categoria)
 Comando no terminal:<br>
 ```python manage.py runserver```
 - Verificar qual porta está para acessar o admin e verificar se há _Categorias_ no app _Contas_
+
+### Integração com diferentes tabelas
+1. Criação no models:
+
+```
+class Transacao(models.Model):
+    data = models.DateTimeField()
+    descricao = models.CharField(max_length=200)
+    valor = models.DecimalField(max_digits=10,decimal_places=2)
+    categoria = models.ForeignKey(Categoria,on_delete=models.CASCADE)
+    observacoes = models.TextField(null=True,blank=True)
+```
+
+
+ - Criação de uma nova tabela 'Transacoes' que irá receber ForeignKey da tabela categoria
+ - ```categoria``` irá receber a informação da tabela 'Categoria'
+2. Pré-âmbulo
+Comando no terminal:<br>
+```python manage.py makemigrations```
+- criação da tabela em si 
+Comando no terminal:<br>
+```python manage.py migrate```
+3. Registro na aplicação no no _admin.py_ 
+```
+from .models import Transacoes
+
+admin.site.register(Transacoes)
+```
+4. Acessar o server via admin
+Comando no terminal:<br>
+```python manage.py runserver```
+
+### Representação na web aplicação
+1. [Meta](https://docs.djangoproject.com/en/4.0/ref/models/options/)
+<p>Para alterar algumas opções da representação de objetos/classe é possível usar meta</p>
+
+``` 
+class Meta:
+        verbose_name_plural = 'Transações'
+```
+ - Aqui, alterando o nome do model ao ter mais de um
+
+2. [Métodos Mágicos](https://www.pythonlikeyoumeanit.com/Module4_OOP/Special_Methods.html)
+<p>Também,relacionado como representar um objeto de classe, pode-se utilizar método mágico para alterar sua observação.</p>
+
+```
+    def __str__(self):
+        return self.descricao
+```
+- Aqui, a represetação da transação será o próprio atributo ```descricao```
