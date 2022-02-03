@@ -4,17 +4,17 @@ Repositório destinado a estudo aplicação de framework Django através do curs
 
 ## Prepação do ambiente
 
-###Criação do ambiente
+### Criação do ambiente
 
 Comando no terminal:<br>
 ```python3 -m venv env-fundamentos```
 
-###Ativação  do ambiente
+### Ativação  do ambiente
 
 Comando no terminal:<br>
 ```source env-fundamentos/bin/activate```
 
-###Instalação de pacotes necessários
+### Instalação de pacotes necessários
 
 Comando no terminal:<br>
 ```pip3 install -r requirements.txt```
