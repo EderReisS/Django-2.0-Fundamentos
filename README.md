@@ -3,15 +3,22 @@ Django-2.0-Fundamentos
 Repositório destinado a estudo aplicação de framework Django através do curso Django 2.0 Fundamentos
 
 ## Prepação do ambiente
+
 ###Criação do ambiente
+
 Comando no terminal:<br>
 ```python3 -m venv env-fundamentos```
+
 ###Ativação  do ambiente
+
 Comando no terminal:<br>
 ```source env-fundamentos/bin/activate```
+
 ###Instalação de pacotes necessários
+
 Comando no terminal:<br>
 ```pip3 install -r requirements.txt```
+
 ## Projeto Django
 ### Iniciando um projeto Django
 - Com o ambiente virtual ativado, seguir o seginte código no terminal de comando:<br>
