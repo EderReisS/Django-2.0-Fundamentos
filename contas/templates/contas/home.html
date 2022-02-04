@@ -9,5 +9,15 @@
 </head>
 <body>
     <h1>Seja bem vindo!</h1>
+    <p>Agora são: {{ now }} </p>
+    <ul>
+        {% for item in transacoes %}
+            {% if item == "t2" %}
+            <li><b>{{ item }}</b></li>
+            {% else %}
+            <li>{{ item }}</li>
+            {% endif %}
+        {% endfor %}
+    </ul>
 </body>
 </html>
