@@ -7,6 +7,8 @@ __pycache__/
 *.so
 
 # Distribution / packaging
+django-fund-env/
+env-fundamentos/
 .Python
 build/
 develop-eggs/
@@ -32,6 +34,7 @@ MANIFEST
 #  before PyInstaller builds the exe, so as to inject date/other infos into it.
 *.manifest
 *.spec
+*.whl
 
 # Installer logs
 pip-log.txt

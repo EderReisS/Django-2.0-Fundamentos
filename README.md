@@ -168,7 +168,7 @@ Comando no terminal:<br>
 
 ### Representação na web aplicação
 1. [Meta](https://docs.djangoproject.com/en/4.0/ref/models/options/)
-<p>Para alterar algumas opções da representação de objetos/classe é possível usar meta</p>
+ <p>Para alterar algumas opções da representação de objetos/classe é possível usar meta</p>
 
 ``` 
 class Meta:
@@ -177,10 +177,49 @@ class Meta:
  - Aqui, alterando o nome do model ao ter mais de um
 
 2. [Métodos Mágicos](https://www.pythonlikeyoumeanit.com/Module4_OOP/Special_Methods.html)
-<p>Também,relacionado como representar um objeto de classe, pode-se utilizar método mágico para alterar sua observação.</p>
+ <p>Também,relacionado como representar um objeto de classe, pode-se utilizar método mágico para alterar sua observação.</p>
 
 ```
     def __str__(self):
         return self.descricao
 ```
 - Aqui, a represetação da transação será o próprio atributo ```descricao```
+
+## Mais sobre os sistemas de templates
+### Sobre o Jinja
+ [Jinja](https://jinja.palletsprojects.com/en/3.0.x/templates/) é um mecanismo de modelagem rápido, expressivo e extensível. Espaços reservados especiais no modelo permitem escrever código semelhante à sintaxe do Python. Em seguida, o modelo recebe dados para renderizar o documento final.
+
+### Definindo as variáveis na views
+ Para utilização do jinja e perfomar o comportamento de atributos e objetos deve-se definir primeiramente as variáveis
+na _view.py_ e aplicálas no ```render```:
+```
+def home(request):
+    data = {}
+    data['transacoes'] = ['t1' , 't2' , 't3']
+    data['now'] = datetime.datetime.now()
+
+    return render(request, 'contas/home.html', data)
+```
+- Aqui a variável de manipulação será o dicionário ```data```, o qual terá as keys _'transacoes'_ e _'now'_ para manipulação no jinja.
+
+### A utilização do jinja no template
+ No template, o valor da variável se obtem através chaves duplas'{{}}' e sua manipulação com diferentes operações acontece via chaves simples '{}':
+
+``` 
+<body>
+    ...
+    <p>Agora são: {{ now }} </p>
+    <ul>
+        {% for item in transacoes %}
+            {% if item == "t2" %}
+            <li><b>{{ item }}</b></li>
+            {% else %}
+            <li>{{ item }}</li>
+            {% endif %}
+        {% endfor %}
+    </ul>
+    ...
+</body>
+```
+- Diferente do python nativo, deve-se se indicar o fim de operações de condição e laço de repetição, como ```{% endfor %}```;
+- O sintaxe de operadoes de comparação deve conter strings com aspas duplas como o caso do ```"t2"```
