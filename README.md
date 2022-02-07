@@ -223,3 +223,52 @@ def home(request):
 ```
 - Diferente do python nativo, deve-se se indicar o fim de operações de condição e laço de repetição, como ```{% endfor %}```;
 - O sintaxe de operadoes de comparação deve conter strings com aspas duplas como o caso do ```"t2"```
+
+# CRUD
+<p>CRUD (Create, Read, Update, Delete) é um acrônimo para as maneiras de se operar em informação armazenada.
+É um mnemônico para as quatro operações básicas de armazenamento persistente. CRUD tipicamente refere-se a operações perfomadas em um banco de dados ou base de dados, mas também pode aplicar-se para funções de alto nível de uma aplicação, como exclusões reversíveis,
+onde a informação não é realmente deletada, mas é marcada como deletada via status.</p>
+
+## Read das transações
+### Criação de  uma nova url do projeto
+Para criação do read determinou-se o novo url, no endereço inicial do servidor   no arquivo _url.py_, a view **listagem** apresentará o contéudo do read:
+
+```
+from contas.views import ..., listagem,...
+
+urlpatterns = [
+    ...
+    path('', listagem)
+    ...
+]
+```
+### Criação da view para obtenção das transacões
+A view listagem obterá todos os itens no model _Transacao_ como iterável no dict _data_:
+
+```
+from .models import ..., Transacao, ...
+
+...
+
+def listagem(request):
+    data = {}
+    data['transacoes'] = Transacao.objects.all()
+
+    return render(request, 'contas/transacoes.html', data)
+```
+
+### Template para visualização do Read
+[Criou-se uma novo template](https://github.com/EderReisS/Django-2.0-Fundamentos#utiliza%C3%A7%C3%A3o-de-templates) no templates de  _contas_ chamado _'transacoes.html'_ para aplicar [jinja](https://github.com/EderReisS/Django-2.0-Fundamentos#mais-sobre-os-sistemas-de-templates) e visualizar informações das transações.
+```
+<h2>Listagem</h2>
+    <ul>
+        {% for item in transacoes  %}
+        <li>
+            {{ item.descricao }} - R$ {{ item.valor }} - {{ item.categoria }} - {{ item.data }}
+        </li>
+        {% endfor %}
+
+    </ul>
+
+```
+ - Mostra respectivamente a descrição, o valor em reais, a categoria e a data da transação.
