@@ -31,6 +31,4 @@ def nova_transacao(request):
         form.save()
         return redirect('url_listagem')
 
-
-
     return render(request,'contas/form.html', {'form':form})

@@ -272,3 +272,81 @@ def listagem(request):
 
 ```
  - Mostra respectivamente a descrição, o valor em reais, a categoria e a data da transação.
+
+## Creeate das transações
+Para criação de uma nova transação utilizou-se a construção de [formulário](https://docs.djangoproject.com/en/4.0/topics/forms/modelforms/), o qual o django já possui suporte para isso.
+
+### Criação de form na aplicação
+1.Para a criação do formulário inicio deve-se modularizar ```model.form``` um arquivo _form.py_
+2. No arquivo _form.py_ defini-se os models que serão adicionados, bem como os campos que serão preenchidos:
+```
+from django.forms import ModelForm
+from .models import Transacao
+
+class TransacaoForm(ModelForm):
+    class Meta:
+        model = Transacao
+        fields =['data','descricao','valor','categoria', 'observacoes']
+```
+ - Categoria foi o model que será criado via formulário, ```fields``` tem os campos do models selecionados
+
+### Url para create
+O caminho assim como toda feature no framework deve ter uma view e um caminho especificado nas urls do projeto.
+
+```
+from contas.views import data_atual, home, listagem, nova_transacao
+
+urlpatterns = [
+     ...
+    path('', listagem, name = 'url_listagem'),
+    path('nova_transacao', nova_transacao, name = 'url_nova_transacao' )
+]
+```
+- Aqui a definição do name é para referenciar diferentes feature em diversos templates ou views do projeto.
+
+
+
+### View para create
+A view terá de receber o form criado para apresentação no template.
+
+```
+from django.shortcuts import render, redirect,...
+...
+from .form import TransacaoForm
+...
+
+def nova_transacao(request):
+
+    form = TransacaoForm(request.POST or None)
+    if form.is_valid():
+        form.save()
+        return redirect('url_listagem')
+
+    return render(request,'contas/form.html', {'form':form})
+```
+
+- O condicional verifica e salva o formulário
+- o ```redirect``` redireciona após o **POST** do formulário para a página de [listagem de transações](https://github.com/EderReisS/Django-2.0-Fundamentos#read-das-transa%C3%A7%C3%B5es)
+- o ```'url_listagem'``` é nome dado de refência para feature _listagem_
+
+### Template para o Create
+[Criou-se uma novo template](https://github.com/EderReisS/Django-2.0-Fundamentos#utiliza%C3%A7%C3%A3o-de-templates) no templates de  _contas_ chamado _'transacoes.html'_ para aplicar [jinja](https://github.com/EderReisS/Django-2.0-Fundamentos#mais-sobre-os-sistemas-de-templates) e preencher o formulário, com o nome ['form.html'](/contas/templates/contas/form.html).
+
+```
+<form method="post">
+    {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Salvar</button>
+
+    </form>
+```
+- Tag ```form``` deve possuir necessariamente o método post.
+- A variável ```csrf_token``` é um validador que coibi ataques através do formulário.
+- A tag ```buttom``` deve ser necessariamente de submissão para funcionar o método post.
+
+### Integração Read para Create
+Uma vez criada o create, convém permitir fácil acesso para adicionar uma nova transação na página de listagem. Para isso, basta adicionar um link no [template de listagem](https://github.com/EderReisS/Django-2.0-Fundamentos#template-para-visualiza%C3%A7%C3%A3o-do-read), no _transacoes.htlm_.
+```
+<a href="{% url 'url_nova_transacao' %}">Novo</a>
+```
+ - ```url_nova_transacao``` é caminho definido nas _urls.py_ no projeto.
