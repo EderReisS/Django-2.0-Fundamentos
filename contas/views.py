@@ -1,9 +1,10 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 
 # Create your views here.
 from django.http import HttpResponse
 import datetime
 from .models import Transacao
+from .form import TransacaoForm
 
 def data_atual(request):
     now = datetime.datetime.now()
@@ -22,3 +23,14 @@ def listagem(request):
     data['transacoes'] = Transacao.objects.all()
 
     return render(request, 'contas/transacoes.html', data)
+
+def nova_transacao(request):
+
+    form = TransacaoForm(request.POST or None)
+    if form.is_valid():
+        form.save()
+        return redirect('url_listagem')
+
+
+
+    return render(request,'contas/form.html', {'form':form})
