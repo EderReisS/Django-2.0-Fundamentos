@@ -12,13 +12,13 @@
     <ul>
         {% for item in transacoes  %}
         <li>
-            {{ item.descricao }} - R$ {{ item.valor }} - {{ item.categoria }} - {{ item.data }}
+            <a href="{% url 'url_update' item.id%}">
+                {{ item.descricao }} - R$ {{ item.valor }} - {{ item.categoria }} - {{ item.data }}
+            </a>
         </li>
         {% endfor %}
-
-        <a href="{% url 'url_nova_transacao' %}">Novo</a>
-
     </ul>
+    <a href="{% url 'url_nova_transacao' %}">Novo</a>
 
 </body>
 </html>
