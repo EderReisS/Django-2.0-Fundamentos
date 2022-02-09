@@ -32,3 +32,13 @@ def nova_transacao(request):
         return redirect('url_listagem')
 
     return render(request,'contas/form.html', {'form':form})
+
+def update(request, pk):
+    transacao = Transacao.objects.get(pk=pk)
+    form = TransacaoForm(request.POST or None, instance=transacao)
+    if form.is_valid():
+        form.save()
+        return redirect('url_listagem')
+
+    return render(request, 'contas/form.html', {'form': form})
+
