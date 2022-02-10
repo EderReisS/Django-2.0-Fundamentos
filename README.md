@@ -350,3 +350,56 @@ Uma vez criada o create, convém permitir fácil acesso para adicionar uma nova 
 <a href="{% url 'url_nova_transacao' %}">Novo</a>
 ```
  - ```url_nova_transacao``` é caminho definido nas _urls.py_ no projeto.
+
+## Update das transaçõs 
+Para atualização de basta obter o id da transação e aplicar um novo form.
+Desse modo, criação da view será extremamente similar ao _Create_ .
+
+### Criação da view 
+
+```
+def update(request, pk):
+    transacao = Transacao.objects.get(pk=pk)
+    form = TransacaoForm(request.POST or None, instance=transacao)
+    if form.is_valid():
+        form.save()
+        return redirect('url_listagem')
+    
+    return render(request, 'contas/form.html', {'form':form})
+```
+- ```transacao``` recebe o objeto que irá ser atualizado
+
+
+### implementação da URL
+O caminho assim como toda feature no framework deve ter uma view e um caminho especificado nas urls do projeto.
+
+``` 
+from django.contrib import admin
+from django.urls import path
+from contas.views import ...,update
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    ...,
+    ...,
+    path('update/<int:pk>', update, name = 'url_update')
+]
+```
+-  o "int:pk" é primary key do banco de dados, que entrará como parâmetro na obtenção da 'transação' a atualizar
+
+### Template para o update
+O acesso o url do update é conviniente torna-lo via acesso da listagem, implemento um link para a view _update_ no template 'listagem.py'.
+
+```
+<h2>Listagem</h2>
+    <ul>
+        {% for item in transacoes  %}
+        <li>
+            <a href="{% url 'url_update' item.id%}">
+                {{ item.descricao }} - R$ {{ item.valor }} - {{ item.categoria }} - {{ item.data }}
+            </a>
+        </li>
+        {% endfor %}
+    </ul>
+```
+ - A tag ```<a href="{% url 'url_update' item.id%}">``` é um link que direciona para o _view de update_, e terá ```item.id``` como pk.
