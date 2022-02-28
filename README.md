@@ -403,3 +403,4 @@ O acesso o url do update é conviniente torna-lo via acesso da listagem, impleme
     </ul>
 ```
  - A tag ```<a href="{% url 'url_update' item.id%}">``` é um link que direciona para o _view de update_, e terá ```item.id``` como pk.
+
